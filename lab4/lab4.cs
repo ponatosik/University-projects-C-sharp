@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
-namespace lab4
+﻿namespace lab4
 {
     class Program
     {
@@ -13,39 +6,53 @@ namespace lab4
         {
             int[] numbers = ReadNumbers();
 
-            if(numbers.Length == 0)
+            if (numbers.Length == 0)
             {
                 Console.WriteLine("Ви не ввели жодного числа");
                 return;
-            }            
+            }
 
             int firstNum = numbers[0];
-            int lastNum = numbers[numbers.Length -1];
+            int lastNum = numbers[numbers.Length - 1];
+
             int searchIndex = 0;
 
-            for(int i = 1; i < numbers.Length; i++)
-                if(firstNum < numbers[i] && numbers[i] < lastNum)
+            for (int i = 1; i < numbers.Length; i++)
+                if (firstNum < numbers[i] && numbers[i] < lastNum)
                     searchIndex = i;
-            
+
             Console.WriteLine($"Результат пошуку елемента що задовільняє нервіності {firstNum} < A[i] < {lastNum}: i = {searchIndex}");
         }
-
+        /// <summary>
+        /// Метод просить користувача ввести масив цілих чисел
+        /// </summary>
+        /// <returns>Масив цілих чисел, введених користувачем</returns>
         static int[] ReadNumbers()
         {
-            Console.WriteLine("Ведіть масив цілих чисел");
-            string arrayStr = Console.ReadLine();
-            
-            int[] numbers = new Regex(@"-?\d+")
-                    .Matches(arrayStr)
-                    .Select(s => int.Parse(s.ToString()))
-                    .ToArray();
+            List<int> numbers = new List<int>();
+
+            Console.WriteLine("Ведіть масив цілих чисел (ведіть * щоби завершити введення)");
+            while (true)
+            {
+                string numberStr = Console.ReadLine();
+                int number;
+
+                if (numberStr == "*")
+                    break;
+
+                if (int.TryParse(numberStr, out number))
+                    numbers.Add(number);
+                else
+                    Console.WriteLine("Невірний формат числа");
+
+            }
 
             Console.Write("Ви ввели числа:");
-            foreach(int number in numbers)
+            foreach (int number in numbers)
                 Console.Write(" " + number);
             Console.Write('\n');
 
-            return numbers;
+            return numbers.ToArray();
         }
     }
 }
