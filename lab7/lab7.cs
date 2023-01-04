@@ -29,6 +29,7 @@ namespace lab7
             }
 
             char[] myCharArray = myCharList.ToArray();
+            Console.ReadKey();
         }
 
         static List<char> ReadCharList()
